@@ -6,18 +6,14 @@ let DataURL =  `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={l
 let searchBtn = document.querySelector('.search-btn');
 
 
+let city = document.querySelector('.search-input');
 
 searchBtn.addEventListener('click', displayLatLon)
 
 function displayLatLon() {
-    let cityName = document.querySelector('.search-input').value;
-    let locationURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`
-    
-    if (!cityName) {
-        return
-    } else if(cityName)
+    let cityName = city.value
+    let locationURL = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${apiKey}`
         
-    
      fetch(locationURL,{})
     .then(response=>response.json())
     .then(data=>{
@@ -39,20 +35,26 @@ function displayLatLon() {
         }
         
         function gatheredData(data) {
+            let cityName = document.querySelector('.city-name')
+            if (!city.value)return
+            cityName.innerHTML = `City: ${city.value}`
+
+            console.log(cityName);
     console.log(data);
+    
     
     let degreeSign = '\u00B0'
     const tempurature = document.querySelector('.tempurature');
-    const wind = document.querySelectorAll('.wind');
+    const wind = document.querySelector('.wind');
     const humidity = document.querySelector('.humidity');
     const status = document.querySelector('.status');
     //const weatherStatus = document.querySelector('.weather-status');
     const iconCode = data.weather[0].icon;
-    const iconURL = `https"//opeanweathermap.org/img/wn/${iconCode}@4x.pmg`
+    const iconURL = `https"//opeanweathermap.org/img/wn/${iconCode}@4x.png`
 
-    console.log(iconURL.src);
+    console.log(iconURL);
 
-    console.log();
+    //navigator.geolocation.getCurrentPosition
 
 
     tempurature.innerHTML =``
@@ -60,6 +62,8 @@ function displayLatLon() {
     humidity.innerHTML =``
    // weatherStatus.innerHTML =``
     status.innerHTML =``
+
+    console.log(wind);
 
     if(data.cod===200){
         tempurature.innerHTML = `Temperature: ${data.main.temp}${degreeSign}C`
